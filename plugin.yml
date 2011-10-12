@@ -1,0 +1,49 @@
+name: motd
+main: org.zweizeichen.Motd.Motd
+version: 1.1.2
+author: zweizeichen
+commands:
+   ip:
+    description: Shows your own IP.
+    usage: |
+           /<command>
+           Example: /<command> - Gives back your IP.
+   
+   who:
+    description: Shows other online players.
+    usage: |
+           /<command>
+           Example: /<command> - Shows other online players.
+   
+   rtp:
+    description: Requests teleport to another player.
+    usage: |
+           /<command> [player/yes]
+           Example: /<command> zweizeichen - Requests a teleport to player zweizeichen.
+           Example: /<command> yes - Allows player to teleport to you.
+    
+   vtime:
+    description: Controls timevotes.
+    usage: |
+           /<command> [time/yes]
+           Example: /<command> day - Starts vote for day. 
+           Example: /<command> night - Starts vote for night.
+           Example: /<command> dawn - Starts vote for dawn.
+           Example: /<command> yes - Votes for time change.
+             
+   motd:
+     description: Shows the motd again and allows to change the config.
+     usage: |
+           /<command>
+           Example: /<command> - Shows the motd again.
+           Example: /<command> reload - Reloads the config.
+           Example: /<command> edit rtp_enabled true - Sets the config to "rtp_enabled: true".
+           Example: /<command> edit motd <red>Hello! - Sets the config to "motd: '<red>Hello!'".
+   
+   rules:
+     description: Shows the rules.
+     usage: |
+           /<command>
+           Example: /<command> - Shows the rules.
+   
+
