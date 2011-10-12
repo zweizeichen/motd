@@ -264,7 +264,7 @@ public class Motd extends JavaPlugin {
 		String outputString;
 
 		// Output string formatting
-		outputString = inputString.replace("<ae>", "ä").replace("<oe>", "ö").replace("<ue>", "ü");
+		outputString = inputString.replace("<ae>", "ä").replace("<Ae>", "Ä").replace("<oe>", "ö").replace("<Oe>", "Ö").replace("<ue>", "ü").replace("<Ue>", "Ü").replace("<oslash>", "ø").replace("<Oslash>", "Ø").replace("<aring>", "å").replace("<Aring>", "Å").replace("<aelig>", "æ").replace("<AElig>", "Æ");
 
 		return outputString;
 	}
