@@ -1,6 +1,6 @@
 name: motd
 main: org.zweizeichen.Motd.Motd
-version: 1.1.2
+version: 1.1.2_experimental
 author: zweizeichen
 commands:
    ip:
