@@ -45,7 +45,7 @@ public class Rules implements CommandExecutor{
 	
 	// Rules function
 		public boolean showRules (Player player) {
-			if (plugin.config.getString("rules_enabled").equals("true")) {
+			if (plugin.config.getBoolean("rules_enabled") || player.isOp()) {
 				String rulesString;
 
 				// Get rules from config

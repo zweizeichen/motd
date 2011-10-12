@@ -44,7 +44,7 @@ public class Who implements CommandExecutor{
 		}
 	
 		private boolean showWho (Player player) {
-			if (plugin.config.getString("who_enabled").equals("true")) {
+			if (plugin.config.getBoolean("who_enabled")) {
 				String whoString;
 				
 				if (plugin.onlineUser(player).equalsIgnoreCase(player.getDisplayName())) {

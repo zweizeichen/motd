@@ -29,19 +29,23 @@ import org.bukkit.entity.Player;
 import org.zweizeichen.Motd.Motd;
 
 public class Config {
+	// Register plugin
 	private final Motd plugin;
+	
+	// Register File and config
+	private File configFile = new File("plugins/motd/motd.yml");
+	private File configDirectory = new File("plugins/motd");
+	private YamlConfiguration config;
+	
 
 	public Config(Motd motd) {
 		this.plugin = motd;
 	}
 
 	// Initialize and return the config file
+	//
+	
 	public YamlConfiguration initConfig(int CONFIG_VERSION) {
-
-		// Register File and config
-		File configFile = new File("plugins/motd/motd.yml");
-		File configDirectory = new File("plugins/motd");
-		YamlConfiguration config;
 
 		// Check for existence of the plugin folder
 
@@ -223,8 +227,8 @@ public class Config {
 			System.out.println("motd: -----------------------------------------------");
 			System.out.println("motd: ---> New property 'permissions_enabled' set to 'false'");
 		}
-
-		if (config.getString("permissions_enabled").equals("true")) {
+		
+		if (config.getBoolean("permissions_enabled")) {
 
 			// Setup Permissions
 			plugin.setupPermissions();
@@ -233,6 +237,14 @@ public class Config {
 
 		return config;
 	}
+	
+	// Function for getting the config path (eg. for calls of config.reload(PATH)
+	//
+	
+	public File getConfigFile(){
+		return configFile;
+	}
+	
 
 	// Function for editing the config file by a Comamnd
 	// Example:
@@ -247,26 +259,26 @@ public class Config {
 		if (args[2].equals("true")) {
 
 			// Print to server log
-			System.out.println("motd: " + player.getDisplayName() + " is setting " + args[1] + " to 'true'.");
+			System.out.println("motd: " + player.getDisplayName() + " is setting " + args[1] + " to 'true'. (Boolean)");
 			// Print to chat
 			player.sendMessage(ChatColor.GREEN + "Setting " + args[1] + " to 'true'.");
 			// Set config
-			config.set(args[1], "true");
+			config.set(args[1], true);
 
-		} else if (args[2].equals("true")) {
+		} else if (args[2].equals("false")) {
 
 			// Print to server log
-			System.out.println("motd: " + player.getDisplayName() + " is setting " + args[2] + " to 'false'.");
+			System.out.println("motd: " + player.getDisplayName() + " is setting " + args[1] + " to 'false'. (Boolean)");
 			// Print to chat
-			player.sendMessage(ChatColor.GREEN + "Setting " + args[2] + " to 'false'.");
+			player.sendMessage(ChatColor.GREEN + "Setting " + args[1] + " to 'false'.");
 			// Set config
-			config.set(args[1], "true");
+			config.set(args[1], false);
 
 		} else {
 			// Print to server log
-			System.out.println("motd: " + player.getDisplayName() + " is setting " + args[1] + " to '" + argumentsFrom(args, 2) + "'.");
+			System.out.println("motd: " + player.getDisplayName() + " is setting " + args[1] + " to " + argumentsFrom(args, 2) + ". (String)");
 			// Print to chat
-			player.sendMessage(ChatColor.GREEN + "Setting " + args[1] + " to '" + argumentsFrom(args, 2) + "'.");
+			player.sendMessage(ChatColor.GREEN + "Setting " + args[1] + " to " + argumentsFrom(args, 2) + ".");
 			// Set config
 			config.set(args[1], argumentsFrom(args, 2));
 
@@ -279,7 +291,7 @@ public class Config {
 		// Save new config
 		// -> Catch the dangerous stuff
 		try {
-			config.save(config.getCurrentPath());
+			config.save(getConfigFile());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -290,7 +302,7 @@ public class Config {
 		// Reload config
 		// -> Catch the dangerous stuff
 		try {
-			config.save(config.getCurrentPath());
+			config.load(getConfigFile());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -309,7 +321,8 @@ public class Config {
 		String outputString = "";
 
 		for (int i = 0 + from; i < args.length; i++) {
-			outputString += " " + args[i];
+			if (i==0 + from) outputString += args[i];
+			else outputString += " " + args[i];
 		}
 
 		return outputString;

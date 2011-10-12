@@ -52,8 +52,9 @@ public class Motd extends JavaPlugin {
 	// Config version of this release
 	private final int CONFIG_VERSION = 3;
 
-	// Register config
+	// Register config and config Module
 	public YamlConfiguration config;
+	public Config configModule;
 
 	// Permissions support
 	public PermissionHandler Permissions;
@@ -71,7 +72,6 @@ public class Motd extends JavaPlugin {
 		PluginDescriptionFile pdfFile = this.getDescription();
 
 		// Initialize the configuration
-		Config configModule;
 		configModule = new Config(this);
 		config = configModule.initConfig(CONFIG_VERSION);
 
@@ -103,7 +103,7 @@ public class Motd extends JavaPlugin {
 			}
 
 			// Send message if command is not enabled
-			if (!config.getString(commandName + "_enabled").equals("true")) {
+			if (!config.getBoolean(commandName + "_enabled")) {
 				player.sendMessage(ChatColor.YELLOW + "/" + commandName + " is not enabled");
 				return false;
 			}
@@ -114,9 +114,9 @@ public class Motd extends JavaPlugin {
 			}
 
 			// Check for permission again and return
-			if (permissionsEnabled && config.getString(commandName + "_enabled").equals("true") && Permissions.has(player, "motd." + commandName + ".use")) {
+			if (permissionsEnabled && config.getBoolean(commandName + "_enabled") && Permissions.has(player, "motd." + commandName + ".use")) {
 				return true;
-			} else if (!permissionsEnabled && config.getString(commandName + "_enabled").equals("true")) {
+			} else if (!permissionsEnabled && config.getBoolean(commandName + "_enabled")) {
 				return true;
 			}
 
@@ -140,7 +140,7 @@ public class Motd extends JavaPlugin {
 			}
 
 			// Send message if command is not enabled
-			if (!config.getString(commandName + "_enabled").equals("true")) {
+			if (!config.getBoolean(commandName + "_enabled")) {
 				player.sendMessage(ChatColor.YELLOW + "/" + commandName + " is not enabled");
 				return false;
 			}
@@ -151,9 +151,9 @@ public class Motd extends JavaPlugin {
 			}
 
 			// Check for permission again and return
-			if (permissionsEnabled && config.getString(commandName + "_enabled").equals("true") && Permissions.has(player, permissionNode)) {
+			if (permissionsEnabled && config.getBoolean(commandName + "_enabled") && Permissions.has(player, permissionNode)) {
 				return true;
-			} else if (!permissionsEnabled && config.getString(commandName + "_enabled").equals("true")) {
+			} else if (!permissionsEnabled && config.getBoolean(commandName + "_enabled")) {
 				return true;
 			}
 
@@ -176,15 +176,15 @@ public class Motd extends JavaPlugin {
 			}
 
 			// Send message if command is not enabled
-			if (!config.getString(commandName + "_enabled").equals("true")) {
+			if (!config.getBoolean(commandName + "_enabled")) {
 				player.sendMessage(ChatColor.YELLOW + "/" + commandName + " is not enabled");
 				return false;
 			}
 
 			// Check for permission again and return
-			if (permissionsEnabled && config.getString(commandName + "_enabled").equals("true") && Permissions.has(player, "motd." + commandName + ".use")) {
+			if (permissionsEnabled && config.getBoolean(commandName + "_enabled") && Permissions.has(player, "motd." + commandName + ".use")) {
 				return true;
-			} else if (!permissionsEnabled && config.getString(commandName + "_enabled").equals("true")) {
+			} else if (!permissionsEnabled && config.getBoolean(commandName + "_enabled")) {
 				return true;
 			}
 
@@ -205,15 +205,15 @@ public class Motd extends JavaPlugin {
 			}
 
 			// Send message if command is not enabled
-			if (!config.getString(commandName + "_enabled").equals("true")) {
+			if (!config.getBoolean(commandName + "_enabled")) {
 				player.sendMessage(ChatColor.YELLOW + "/" + commandName + " is not enabled");
 				return false;
 			}
 
 			// Check for permission again and return
-			if (permissionsEnabled && config.getString(commandName + "_enabled").equals("true") && Permissions.has(player, permissionNode)) {
+			if (permissionsEnabled && config.getBoolean(commandName + "_enabled") && Permissions.has(player, permissionNode)) {
 				return true;
-			} else if (!permissionsEnabled && config.getString(commandName + "_enabled").equals("true")) {
+			} else if (!permissionsEnabled && config.getBoolean(commandName + "_enabled")) {
 				return true;
 			}
 
