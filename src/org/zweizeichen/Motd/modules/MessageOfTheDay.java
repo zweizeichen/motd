@@ -68,7 +68,15 @@ public class MessageOfTheDay implements CommandExecutor{
 				// Save and reload config
 				System.out.println("motd: " + player.getDisplayName() + " called command '/motd reload'.");
 				System.out.println("motd: Reloading config...");
-				plugin.config.load();
+				
+				// Reload config
+				// -> Catch the dangerous stuff
+				try {
+					plugin.config.load(plugin.config.getCurrentPath());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				System.out.println("motd: Config reloaded!");
 				player.sendMessage(ChatColor.GRAY + "motd: Config reloaded!");
 				

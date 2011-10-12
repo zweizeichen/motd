@@ -24,8 +24,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.util.config.Configuration;
 import org.zweizeichen.Motd.Motd;
 
 public class Config {
@@ -36,12 +36,12 @@ public class Config {
 	}
 
 	// Initialize and return the config file
-	public Configuration initConfig(int CONFIG_VERSION) {
+	public YamlConfiguration initConfig(int CONFIG_VERSION) {
 
 		// Register File and config
 		File configFile = new File("plugins/motd/motd.yml");
 		File configDirectory = new File("plugins/motd");
-		Configuration config;
+		YamlConfiguration config;
 
 		// Check for existence of the plugin folder
 
@@ -52,8 +52,14 @@ public class Config {
 		// Initialize config
 		if (configFile.exists()) {
 
-			config = new Configuration(configFile);
-			config.load();
+			config = new YamlConfiguration();
+			
+			// Catch the dangerous stuff
+			try {
+				config.load(configFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		} else {
 
@@ -114,12 +120,17 @@ public class Config {
 				System.out.println(e.getLocalizedMessage());
 			}
 
-			config = new Configuration(configFile);
-			config.load();
+			config = new YamlConfiguration();
+			// Catch the dangerous stuff
+			try {
+				config.load(configFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
 
-		if (!config.getProperty("config_version").equals(CONFIG_VERSION) && !config.getProperty("config_version").equals(2)) {
+		if (!config.get("config_version").equals(CONFIG_VERSION) && !config.get("config_version").equals(2)) {
 			// Check if config is up to date
 
 			System.out.println("motd: ********** !IMPORTANT! **********");
@@ -128,18 +139,18 @@ public class Config {
 			System.out.println("motd: Otherwise the plugin will start to behave strange :D");
 			System.out.println("motd: ********** !IMPORTANT! **********");
 
-		} else if (config.getProperty("config_version").equals(2)) {
+		} else if (config.get("config_version").equals(2)) {
 			// Try to migrate config from version 2 to version 3
 
 			System.out.println("motd: Migrating your config to version 3...");
 
-			String motd = config.getProperty("motd").toString();
-			String motd_enabled = config.getProperty("motd_enabled").toString();
-			String motd_command_enabled = config.getProperty("motd_command_enabled").toString();
-			String rtp_enabled = config.getProperty("rtp_enabled").toString();
-			String vtime_enabled = config.getProperty("vtime_enabled").toString();
-			String who_enabled = config.getProperty("who_enabled").toString();
-			String ip_enabled = config.getProperty("ip_enabled").toString();
+			String motd = config.get("motd").toString();
+			String motd_enabled = config.get("motd_enabled").toString();
+			String motd_command_enabled = config.get("motd_command_enabled").toString();
+			String rtp_enabled = config.get("rtp_enabled").toString();
+			String vtime_enabled = config.get("vtime_enabled").toString();
+			String who_enabled = config.get("who_enabled").toString();
+			String ip_enabled = config.get("ip_enabled").toString();
 
 			try {
 				configFile.delete();
@@ -195,7 +206,12 @@ public class Config {
 			}
 
 			// Reload config
-			config.load();
+			// -> Catch the dangerous stuff
+			try {
+				config.load(configFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			// Inform user about successful upgrade
 			System.out.println("motd: Successfully migrated your config from version 2 to version 3.");
@@ -226,7 +242,7 @@ public class Config {
 	//
 
 	public boolean editConfigByCommand(String[] args, Player player,
-			Configuration config) {
+			YamlConfiguration config) {
 		// Check if we have a true/false statement or a text
 		if (args[2].equals("true")) {
 
@@ -235,7 +251,7 @@ public class Config {
 			// Print to chat
 			player.sendMessage(ChatColor.GREEN + "Setting " + args[1] + " to 'true'.");
 			// Set config
-			config.setProperty(args[1], "true");
+			config.set(args[1], "true");
 
 		} else if (args[2].equals("true")) {
 
@@ -244,7 +260,7 @@ public class Config {
 			// Print to chat
 			player.sendMessage(ChatColor.GREEN + "Setting " + args[2] + " to 'false'.");
 			// Set config
-			config.setProperty(args[1], "true");
+			config.set(args[1], "true");
 
 		} else {
 			// Print to server log
@@ -252,7 +268,7 @@ public class Config {
 			// Print to chat
 			player.sendMessage(ChatColor.GREEN + "Setting " + args[1] + " to '" + argumentsFrom(args, 2) + "'.");
 			// Set config
-			config.setProperty(args[1], argumentsFrom(args, 2));
+			config.set(args[1], argumentsFrom(args, 2));
 
 		}
 
@@ -260,12 +276,24 @@ public class Config {
 		System.out.println("motd: Saving new values...");
 		// Print to chat
 		player.sendMessage(ChatColor.GREEN + "Saving new values...");
-		config.save();
+		// Save new config
+		// -> Catch the dangerous stuff
+		try {
+			config.save(config.getCurrentPath());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// Print to server log
 		System.out.println("motd: Reloading config...");
 		// Print to chat
 		player.sendMessage(ChatColor.GREEN + "Reloading config...");
-		config.load();
+		// Reload config
+		// -> Catch the dangerous stuff
+		try {
+			config.save(config.getCurrentPath());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// Print to server log
 		System.out.println("motd: Done!");
 		// Print to chat
