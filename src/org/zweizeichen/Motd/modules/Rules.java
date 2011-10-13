@@ -54,7 +54,7 @@ public class Rules implements CommandExecutor{
 				// Make newlines
 				for (String motdStringSplitted : rulesString.split("<n>")) {
 					// Clean \n and replace colors / placeholders
-					player.sendMessage(plugin.replaceUmlaute(plugin.replacePlaceholders(plugin.replaceColors(motdStringSplitted.replaceAll("<n>", "")),player)));
+					player.sendMessage(plugin.markupModule.markupAll(motdStringSplitted, player));
 				}
 			}
 			return true;

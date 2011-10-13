@@ -54,7 +54,7 @@ public class Who implements CommandExecutor{
 					// Make newlines
 					for (String motdStringSplitted : whoString.split("<n>")) {
 						// Clean \n and replace colors / placeholders
-						player.sendMessage(plugin.replaceUmlaute(plugin.replacePlaceholders(plugin.replaceColors(motdStringSplitted.replaceAll("<n>", "")),player)));
+						player.sendMessage(plugin.markupModule.markupAll(motdStringSplitted, player));
 					}
 				} else {
 					// Get who from config
@@ -63,7 +63,7 @@ public class Who implements CommandExecutor{
 					// Make newlines
 					for (String motdStringSplitted : whoString.split("<n>")) {
 						// Clean \n and replace colors / placeholders
-						player.sendMessage(plugin.replaceUmlaute(plugin.replacePlaceholders(plugin.replaceColors(motdStringSplitted.replaceAll("<n>", "")),player)));
+						player.sendMessage(plugin.markupModule.markupAll(motdStringSplitted, player));
 					}
 				}
 			}
