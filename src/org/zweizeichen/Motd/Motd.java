@@ -61,8 +61,8 @@ public class Motd extends JavaPlugin {
 	public PermissionHandler Permissions;
 	public Boolean permissionsEnabled = false;
 	
-	// Register markup class
-	public Markup markupModule;
+	// Register and initialize markup class
+	public Markup markupModule = new Markup(this);
 
 	@Override
 	public void onDisable() {
