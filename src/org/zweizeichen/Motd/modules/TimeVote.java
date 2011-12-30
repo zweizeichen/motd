@@ -125,7 +125,7 @@ public class TimeVote implements CommandExecutor {
 						timeVotes.clear();
 
 						// Set time
-						World world = player.getWorld();
+						World world = plugin.getServer().getWorld(timeVoteWorldName);
 						world.setTime(timeValue);
 					} else {
 						
