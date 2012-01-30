@@ -29,8 +29,7 @@ import org.bukkit.entity.Player;
 import org.zweizeichen.Motd.Motd;
 
 public class Config {
-	// Register plugin
-	private final Motd plugin;
+
 	
 	// Register File and config
 	private File configFile = new File("plugins/motd/motd.yml");
@@ -39,7 +38,7 @@ public class Config {
 	
 
 	public Config(Motd motd) {
-		this.plugin = motd;
+		// Do nothing
 	}
 
 	// Initialize and return the config file
@@ -226,13 +225,6 @@ public class Config {
 			System.out.println("motd: ---> New property 'who_alone' set to '<green>You are the only one on the server.'");
 			System.out.println("motd: -----------------------------------------------");
 			System.out.println("motd: ---> New property 'permissions_enabled' set to 'false'");
-		}
-		
-		if (config.getBoolean("permissions_enabled")) {
-
-			// Setup Permissions
-			plugin.setupPermissions();
-
 		}
 
 		return config;

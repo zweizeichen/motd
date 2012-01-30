@@ -50,21 +50,22 @@ public class MessageOfTheDay implements CommandExecutor{
 		Player player = (Player) sender;
 		
 		// Check if we have any args
-		if (args.length == 0 && plugin.checkPermissions("motd_command","motd.motd.use", sender)) {
+		if (args.length == 0 && plugin.permissions.checkCommand("motd_command_enabled","motd.motd.use", player)) {
 			return showMotd(player);
 		}
-		else if (args.length == 0 && !plugin.checkPermissions("motd_command","motd.motd.use", sender)){
+		else if (args.length == 0 && !plugin.permissions.checkCommand("motd_command_enabled","motd.motd.use", player)){
+			player.sendMessage(ChatColor.RED + "You do not have the permission to do this.");
 			return true;
 		}
 		
 		// If we have args, this section will be executed (in case Permissions are in effect)
 		if (plugin.permissionsEnabled) {
 			
-			if (args[0].equalsIgnoreCase("edit") && (plugin.Permissions.has(player, "motd.edit") || player.isOp())) {
+			if (args[0].equalsIgnoreCase("edit") && plugin.permissions.checkPermission("motd.edit", player)) {
 				Config configHelper = new Config(plugin);
 				return configHelper.editConfigByCommand(args, player, plugin.config);
 			}
-			else if (args[0].equalsIgnoreCase("reload") && (plugin.Permissions.has(player, "motd.reload") || player.isOp())) {
+			else if (args[0].equalsIgnoreCase("reload") && plugin.permissions.checkPermission("motd.reload", player)) {
 				
 				// Save and reload config
 				System.out.println("motd: " + player.getDisplayName() + " called command '/motd reload'.");
@@ -73,7 +74,7 @@ public class MessageOfTheDay implements CommandExecutor{
 				// Reload config
 				// -> Catch the dangerous stuff
 				try {
-					plugin.config.load(plugin.configModule.getConfigFile());
+					plugin.config.load(plugin.configFile.getConfigFile());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -83,37 +84,15 @@ public class MessageOfTheDay implements CommandExecutor{
 				
 				return true;
 			}
-
-		}
-		
-		// When the player is Op, then execute this section
-		if (player.isOp()) {
-
-			if (args[0].equalsIgnoreCase("edit")) {
-				Config configHelper = new Config(plugin);
-				return configHelper.editConfigByCommand(args, player, plugin.config);
-			} else if (args[0].equalsIgnoreCase("reload")) {
-
-				// Save and reload config
-				System.out.println("motd: " + player.getDisplayName() + " called command '/motd reload'.");
-				System.out.println("motd: Reloading config...");
-
-				// Reload config
-				// -> Catch the dangerous stuff
-				try {
-					plugin.config.load(plugin.configModule.getConfigFile());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				System.out.println("motd: Config reloaded!");
-				player.sendMessage(ChatColor.GRAY + "motd: Config reloaded!");
-
+			else if(!(plugin.permissions.checkPermission("motd.reload", player) || plugin.permissions.checkPermission("motd.edit", player)))
+			{
+				player.sendMessage(ChatColor.RED + "You do not have the permission to do this.");
 				return true;
 			}
 
 		}
 		
+		player.sendMessage(ChatColor.RED + "Maybe you do not have the permission to do this.");
 		return false;
 	}
 	
@@ -128,7 +107,7 @@ public class MessageOfTheDay implements CommandExecutor{
 			// Make newlines
 			for (String motdStringSplitted : motdString.split("<n>")) {
 				// Clean \n and replace colors / placeholders
-				player.sendMessage(plugin.markupModule.markupAll(motdStringSplitted, player));
+				player.sendMessage(plugin.markup.markupAll(motdStringSplitted, player));
 			}
 		}
 		return true;

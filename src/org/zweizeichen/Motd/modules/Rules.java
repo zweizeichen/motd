@@ -18,6 +18,7 @@
 
 package org.zweizeichen.Motd.modules;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,17 +36,19 @@ public class Rules implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
-		if (plugin.checkPermissions("rules", sender)) {
-			Player player = (Player) sender;
+		Player player = (Player)sender;
+		
+		if (plugin.permissions.checkCommand("rules_enabled", "motd.rules.use", player)) {
 			return showRules(player);
 		}
 		
+		player.sendMessage(ChatColor.RED + "Maybe you do not have the permission to do this.");
 		return false;
 	}
 	
 	// Rules function
 		public boolean showRules (Player player) {
-			if (plugin.config.getBoolean("rules_enabled") || player.isOp()) {
+			if (plugin.config.getBoolean("rules_enabled")) {
 				String rulesString;
 
 				// Get rules from config
@@ -54,7 +57,7 @@ public class Rules implements CommandExecutor{
 				// Make newlines
 				for (String motdStringSplitted : rulesString.split("<n>")) {
 					// Clean \n and replace colors / placeholders
-					player.sendMessage(plugin.markupModule.markupAll(motdStringSplitted, player));
+					player.sendMessage(plugin.markup.markupAll(motdStringSplitted, player));
 				}
 			}
 			return true;

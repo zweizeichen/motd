@@ -36,11 +36,13 @@ public class Util implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
-		if (plugin.checkPermissions("ip", sender)) {
-			Player player = (Player) sender;
+		Player player = (Player)sender;
+		
+		if (plugin.permissions.checkCommand("ip_enabled", "motd.ip.use", player)) {
 			return showIP(player);
 		}
 		
+		player.sendMessage(ChatColor.RED + "Maybe you do not have the permission to do this.");
 		return false;
 	}
 	

@@ -52,13 +52,17 @@ public class TimeVote implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
-		if (plugin.checkPermissions("vtime", sender)) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		
+		Player player = (Player)sender;
+		
+		if (plugin.permissions.checkCommand("vtime_enabled", "motd.vtime.use", player)) {
 
-			return timeVote((Player) sender, args);
+			return timeVote(player, args);
 
 		}
+		
+		player.sendMessage(ChatColor.RED + "Maybe you do not have the permission to do this.");
 		return false;
 	}
 
@@ -116,7 +120,7 @@ public class TimeVote implements CommandExecutor {
 					player.sendMessage(ChatColor.YELLOW + "You voted for a time change.");
 
 					// Check if enough players voted for time change
-					if (proVotePercentage <= 50) {
+					if (proVotePercentage > 50) {
 
 						plugin.getServer().broadcastMessage(ChatColor.BLUE + "Vote passed! - Changing time now...");
 

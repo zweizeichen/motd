@@ -18,10 +18,16 @@
 
 package org.zweizeichen.Motd.modules;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.bukkit.entity.Player;
 import org.zweizeichen.Motd.Motd;
 
 public class Permissions {
+	
+	// Add logger for console messages
+	protected static final Logger logger = Logger.getLogger("Minecraft");
 	
 	// Constructor
 	public Permissions(Motd motd) {
@@ -30,15 +36,38 @@ public class Permissions {
 	
 	// Register plugin
 	private final Motd plugin;
-		
-	public boolean checkCommand (String commandName, Player player) {
 	
-		return true;
+	// Function for cehcking for simple commands	
+	// Use superPerms for permissionsEnabled = true, default to config if not
+	public boolean checkCommand(String configKey, String permissionNode, Player player) {
+		
+		if (plugin.permissionsEnabled){
+			return checkPermission(permissionNode, player);
+		}
+		else {
+			return plugin.config.getBoolean(configKey);
+		}
+	
 	}
 	
-	public boolean checkPermission (String permissionPath, Player player) {
+	// Permission check for superPerms
+	public boolean checkPermission(String permissionPath, Player player) {
 		
-		return true;
+		if (player.isPermissionSet(permissionPath)) {
+			
+			if(player.hasPermission(permissionPath)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
+		else {
+			logger.log(Level.WARNING, "[motd] " + player.getDisplayName() + " tried to use " + permissionPath + " but there is no permission set with that path.");
+		}
+		
+		return false;
 	}
 
 }

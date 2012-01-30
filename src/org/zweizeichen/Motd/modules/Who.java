@@ -18,6 +18,7 @@
 
 package org.zweizeichen.Motd.modules;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,11 +36,13 @@ public class Who implements CommandExecutor{
 	@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 			
-			if (plugin.checkPermissions("who", sender)) {
-				Player player = (Player) sender;
+			Player player = (Player)sender;
+		
+			if (plugin.permissions.checkCommand("who_enabled", "motd.who.use", player)) {
 				return showWho(player);
 			}
 			
+			player.sendMessage(ChatColor.RED + "Maybe you do not have the permission to do this.");
 			return false;
 		}
 	
@@ -54,7 +57,7 @@ public class Who implements CommandExecutor{
 					// Make newlines
 					for (String motdStringSplitted : whoString.split("<n>")) {
 						// Clean \n and replace colors / placeholders
-						player.sendMessage(plugin.markupModule.markupAll(motdStringSplitted, player));
+						player.sendMessage(plugin.markup.markupAll(motdStringSplitted, player));
 					}
 				} else {
 					// Get who from config
@@ -63,7 +66,7 @@ public class Who implements CommandExecutor{
 					// Make newlines
 					for (String motdStringSplitted : whoString.split("<n>")) {
 						// Clean \n and replace colors / placeholders
-						player.sendMessage(plugin.markupModule.markupAll(motdStringSplitted, player));
+						player.sendMessage(plugin.markup.markupAll(motdStringSplitted, player));
 					}
 				}
 			}

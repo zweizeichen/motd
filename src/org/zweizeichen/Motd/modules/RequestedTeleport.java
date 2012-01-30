@@ -50,11 +50,13 @@ public class RequestedTeleport implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
-		if (plugin.checkPermissions("rtp", "motd.rtp.yes" ,sender) || plugin.checkPermissions("rtp", "motd.rtp.request" ,sender)) {
-			Player player = (Player) sender;
+		Player player = (Player) sender;
+		
+		if (plugin.permissions.checkCommand("rtp_enabled", "motd.rtp.yes", player) || plugin.permissions.checkCommand("rtp_enabled", "motd.rtp.request", player)) {
 			return requestTeleport(player, args);
 		}
 		
+		player.sendMessage(ChatColor.RED + "Maybe you do not have the permission to do this.");
 		return false;
 	}
 	
@@ -93,7 +95,7 @@ public class RequestedTeleport implements CommandExecutor{
 		} else if (!arg[0].equalsIgnoreCase(askingPlayer.getName())) {
 			
 			// Permissions Check
-			if (plugin.permissionsEnabled && !plugin.checkPermissions("rtp", "motd.rtp.request", (CommandSender)askingPlayer)){
+			if (plugin.permissionsEnabled && !plugin.permissions.checkCommand("rtp_enabled", "motd.rtp.request", askingPlayer)){
 				return false;
 			}
 			
