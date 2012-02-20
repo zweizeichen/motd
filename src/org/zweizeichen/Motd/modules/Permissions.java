@@ -37,7 +37,7 @@ public class Permissions {
 	// Register plugin
 	private final Motd plugin;
 	
-	// Function for cehcking for simple commands	
+	// Function for checking for simple commands	
 	// Use superPerms for permissionsEnabled = true, default to config if not
 	public boolean checkCommand(String configKey, String permissionNode, Player player) {
 		

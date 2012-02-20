@@ -74,6 +74,14 @@ public class Motd extends JavaPlugin {
 		
 		// Set-up permission system properly
 		permissionsEnabled = config.getBoolean("permissions_enabled");
+		
+		// Write status to log
+		if(permissionsEnabled) {
+			System.out.println("[motd] Permissions are enabled via SuperPerms.");
+		}
+		else {
+			System.out.println("[motd] Permissions are not enabled. Commands will be handled by config.");
+		}
 
 		// Register commands
 		getCommand("ip").setExecutor(new Util(this));
