@@ -25,7 +25,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.zweizeichen.Motd.Motd;
 
 
@@ -43,7 +42,7 @@ public class RequestedTeleport implements CommandExecutor{
         // Register events for RequestedTeleportListener
         RequestedTeleportListener rtpListener = new RequestedTeleportListener(this);
     
-        plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, rtpListener, Event.Priority.Normal, plugin);
+        plugin.getServer().getPluginManager().registerEvents(rtpListener, plugin);
         
     }
 	

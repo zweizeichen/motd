@@ -23,7 +23,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.zweizeichen.Motd.Motd;
 
 public class MessageOfTheDay implements CommandExecutor{
@@ -36,7 +35,7 @@ public class MessageOfTheDay implements CommandExecutor{
         // Register events for MessageOfTheDayListener
         MessageOfTheDayListener motdListener = new MessageOfTheDayListener(this);
     
-        plugin.getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, motdListener, Event.Priority.Normal, plugin);
+        plugin.getServer().getPluginManager().registerEvents(motdListener, plugin);
     }
 	
 	@Override

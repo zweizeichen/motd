@@ -18,10 +18,12 @@
 
 package org.zweizeichen.Motd.modules;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 
-public class MessageOfTheDayListener extends PlayerListener{
+public class MessageOfTheDayListener implements Listener{
 
 	// Link messageOfTheDay to instance of MessageOfTheDay registering the listener
 	private final MessageOfTheDay messageOfTheDay;
@@ -30,7 +32,7 @@ public class MessageOfTheDayListener extends PlayerListener{
 		messageOfTheDay = instance;
 	}
 	
-	@Override
+	@EventHandler (priority = EventPriority.NORMAL)
 	public void onPlayerJoin (PlayerJoinEvent event)	 {
 		messageOfTheDay.showMotd(event.getPlayer());
 	}

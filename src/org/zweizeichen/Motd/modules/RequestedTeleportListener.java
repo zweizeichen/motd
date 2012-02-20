@@ -21,10 +21,12 @@ package org.zweizeichen.Motd.modules;
 import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class RequestedTeleportListener extends PlayerListener{
+public class RequestedTeleportListener implements Listener{
 
 	// Link rtp to instance of RequestedTeleport registering the listener
 	private final RequestedTeleport rtp;
@@ -33,7 +35,7 @@ public class RequestedTeleportListener extends PlayerListener{
 		rtp = instance;
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 
