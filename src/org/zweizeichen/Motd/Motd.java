@@ -74,10 +74,8 @@ public class Motd extends JavaPlugin {
 		
 		// Set-up permission system properly
 		permissionsEnabled = config.getBoolean("permissions_enabled");
-		System.out.println(permissionsEnabled + " is enabled!");
 
 		// Register commands
-
 		getCommand("ip").setExecutor(new Util(this));
 		getCommand("who").setExecutor(new Who(this));
 		getCommand("rules").setExecutor(new Rules(this));
