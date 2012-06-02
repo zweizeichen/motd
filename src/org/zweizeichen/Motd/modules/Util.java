@@ -1,4 +1,4 @@
-//  Copyright 2011 by Sebastian Wagner
+//  Copyright 2012 by Sebastian Wagner
 //
 //  This file is part of motd.
 //
